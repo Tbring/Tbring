@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lvm.dao.ProcurementDao">
+    <select id="selectprocurementAll" resultType="com.example.lvm.po.Procurement">
+        select * from procurement;
+    </select>
+
+    <!--    删除表数据-->
+    <delete id="deleteProcurement" parameterType="int">
+        delete from procurement where id=#{id}
+    </delete>
+
+    <insert id="addProcurement" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.example.lvm.po.Procurement">
+        insert into procurement (purchaseId,procurmentUser,purchasedate,supplier,shop,price)
+        VALUES(#{purchaseId},#{procurmentUser},#{purchasedate},#{supplier},#{shop},#{price})
+    </insert>
+
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lvm.dao.ReceiveDao">
+    <select id="selectreceiveAll" resultType="com.example.lvm.po.Receive">
+        select * from receive;
+    </select>
+
+    <select id="selectreceivestateAll" resultType="com.example.lvm.po.Receive">
+        select * from receive where state=#{state}
+    </select>
+
+    <select id="selectreceiveidAll" resultType="com.example.lvm.po.Receive">
+        select * from receive where id=#{id}
+    </select>
+
+    <update id="upReceiveState" parameterType="int">
+        update receive set state=#{state} where id=#{id};
+    </update>
+    <!--    删除表数据-->
+    <delete id="deleteReceive" parameterType="int">
+        delete from receive where id=#{id}
+    </delete>
+
+    <insert id="addReceive" useGeneratedKeys="true" keyProperty="id" parameterType="com.example.lvm.po.Receive">
+        insert into
+        receive(name,specification,brand,number,recipientsdate,datareturn,returndate,username,dataId)values(#{name},#{specification},#{brand},#{number},#{recipientsdate},#{datareturn},#{returndate},#{username},#{dataId})
+    </insert>
+
+
+</mapper>

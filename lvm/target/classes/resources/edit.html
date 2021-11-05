@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="jquery.min.js"></script>
+    <script src="layui/layui.js"></script>
+    <script src="vue.js"></script>
+    <script src="axios.min.js"></script>
+    <style>
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        .pr-2 {
+            padding-right: 2rem;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form mt-2 pr-2" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-block">
+            <input type="text" id="name" name="name" required lay-verify="required" placeholder="请填写商品名称"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <input type="text" name="type" id="type" required lay-verify="required" placeholder="请填写商品类型"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">品牌</label>
+        <div class="layui-input-block">
+            <input type="text" name="brand" id="brand" required lay-verify="required" placeholder="请填写商品品牌"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">规格</label>
+        <div class="layui-input-block">
+            <input type="text" name="specification" id="specification" required lay-verify="required"
+                   placeholder="请填写商品规格" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">数量</label>
+        <div class="layui-input-block">
+            <input type="text" name="num" id="num" required lay-verify="required" placeholder="请填写商品数量"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">申购人</label>
+        <div class="layui-input-block">
+            <input type="text" name="user" id="user" required lay-verify="required" placeholder="请填写申购人"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">价格</label>
+        <div class="layui-input-block">
+            <input type="text" name="price" id="price" required lay-verify="required" placeholder="请填写单价"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">申请时间</label>
+        <div class="layui-input-block">
+            <input type="text" name="purchasedate" id="purchasedate" required lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-radius layui-btn-normal" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-radius layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    //Demo
+    var val = parent.tdid;
+
+    var name1 = document.getElementById("name");
+    var type1 = document.getElementById("type");
+    var brand1 = document.getElementById("brand");
+    var specification = document.getElementById("specification");
+    var num1 = document.getElementById("num");
+    var user = document.getElementById("user");
+    var price1 = document.getElementById("price");
+    var purchasedate = document.getElementById("purchasedate");
+    name1.value = val.name;
+    type1.value = val.type;
+    brand1.value = val.brand;
+    specification.value = val.specification;
+    num1.value = val.number;
+    user.value = val.requisitioner;
+    price1.value = val.price;
+    purchasedate.value = val.purchasedate;
+    layui.use('form', function () {
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            console.log(data.field)
+            $.ajax({
+                url: '/',
+                data: data.field,
+                success: function (data) {
+                    layui.layer.msg("提交成功")
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

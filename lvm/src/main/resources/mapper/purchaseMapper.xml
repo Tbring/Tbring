@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lvm.dao.PurchaseDao">
+    <select id="selectAll" resultType="com.example.lvm.po.Purchase">
+        select * from purchase;
+    </select>
+
+    <select id="selectstateAll" resultType="com.example.lvm.po.Purchase">
+        select * from purchase where state=2;
+    </select>
+
+
+    <select id="selectidAll" resultType="com.example.lvm.po.Purchase">
+        select * from purchase where id=#{id};
+    </select>
+    <select id="selectnameAll" resultType="com.example.lvm.po.Purchase">
+        select * from purchase where name=#{name};
+    </select>
+
+    <!--    删除表数据-->
+    <delete id="deletePurchase" parameterType="int">
+        delete from purchase where id=#{id}
+    </delete>
+
+
+    <update id="upDataState" parameterType="int">
+        update purchase set state=#{state} where id=#{id};
+    </update>
+
+    <insert id="addPurchase" useGeneratedKeys="true" keyProperty="id" parameterType="com.example.lvm.po.Purchase">
+        insert into purchase (name,state,type,brand,number,requisitioner,specification,purchasedate,price)
+        VALUES(#{name},1,#{type},#{brand},#{number},#{requisitioner},#{specification},#{purchasedate},#{price})
+    </insert>
+
+</mapper>

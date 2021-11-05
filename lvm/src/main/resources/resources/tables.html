@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- site icon -->
+    <link rel="icon" href="images/fevicon.png" type="image/png"/>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <!-- site css -->
+    <link rel="stylesheet" href="css/style.css"/>
+    <!-- responsive css -->
+    <link rel="stylesheet" href="css/responsive.css"/>
+    <!-- color css -->
+    <link rel="stylesheet" href="css/colors.css"/>
+    <!-- select bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap-select.css"/>
+    <!-- scrollbar css -->
+    <link rel="stylesheet" href="css/perfect-scrollbar.css"/>
+    <!-- custom css -->
+    <link rel="stylesheet" href="css/custom.css"/>
+    <!-- calendar file css -->
+    <link rel="stylesheet" href="js/semantic.min.css"/>
+    <!-- fancy box js -->
+    <link rel="stylesheet" href="css/jquery.fancybox.css"/>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+    <!--    layui-->
+    <link rel="stylesheet" href="js/layui-v2.6.8/layui/css/layui.css" media="all">
+
+
+</head>
+
+<body class="inner_page tables_page">
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>表</h2>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>用户表</h2>
+                        </div>
+                    </div>
+                    <div class="table_section padding_infor_info">
+                        <div class="table-responsive-sm">
+                            <table class="layui-hide" id="test" lay-filter="test"></table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <div class="container-fluid">
+        <div class="footer">
+            <p>Copyright &copy; 2020.Company name All rights reserved.<a target="_blank"
+                                                                         href="https://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+            </p>
+        </div>
+    </div>
+</div>
+<!-- jQuery -->
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/jquery-3.5.1.js"></script>
+<script src="js/jquery-3.5.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- wow animation -->
+<script src="js/animate.js"></script>
+<!-- select country -->
+<script src="js/bootstrap-select.js"></script>
+<!-- owl carousel -->
+<script src="js/owl.carousel.js"></script>
+<!-- chart js -->
+<script src="js/Chart.min.js"></script>
+<script src="js/Chart.bundle.min.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/analyser.js"></script>
+<!-- nice scrollbar -->
+<script src="js/perfect-scrollbar.min.js"></script>
+
+<!-- fancy box js -->
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/jquery.fancybox.min.js"></script>
+<!-- custom js -->
+<script src="js/custom.js"></script>
+<!-- calendar file css -->
+<script src="js/semantic.min.js"></script>
+
+<!--    layui-js-->
+<script src="js/layui-v2.6.8/layui/layui.js" charset="utf-8"></script>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" id="updata" style="color: white;" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" id="delete" style="color: white;" lay-event="del">删除</a>
+</script>
+<script>
+
+    var layer;
+    var name;
+    var dataAll;
+    window.onload = function () {
+
+        layui.use(['table', 'layer'], function () {
+            var table = layui.table;
+            layer = layui.layer;
+            table.render({
+                elem: '#test',
+                method: "post",
+                url: 'http://localhost:1360/userselect',
+                toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                ,
+                defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '提示',
+                    layEvent: 'LAYTABLE_TIPS',
+                    icon: 'layui-icon-tips'
+                }],
+                title: '用户数据表',
+                cols: [
+                    [{
+                        type: 'checkbox',
+                        fixed: 'left'
+                    }, {
+                        field: 'id',
+                        width: 100,
+                        title: 'ID',
+                        fixed: 'left',
+                        unresize: true,
+                        sort: true
+                    }, {
+                        field: 'username',
+                        width: 100,
+                        title: '用户名'
+                    }, {
+                        field: 'password',
+                        width: 100,
+                        title: '密码'
+                    }, {
+                        field: 'nickname',
+                        width: 100,
+                        title: '昵称',
+                        sort: true
+                    }, {
+                        field: 'sex',
+                        width: 100,
+                        title: '性别',
+                        sort: true
+                    }, {
+                        field: 'permissions',
+                        width: 100,
+                        title: '权限',
+                        sort: true
+                    }, {
+                        field: 'phone',
+                        width: 100,
+                        title: '电话'
+                    }, {
+                        field: 'userEmail',
+                        title: '邮件',
+                        minWidth: 120,
+                        maxWidth: 120
+                    }, {
+                        fixed: 'right',
+                        title: '操作',
+                        toolbar: '#barDemo',
+                        width: 400,
+
+                    }
+
+                    ]
+                ],
+                page: true
+            });
+
+
+            //头工具栏事件
+            table.on('toolbar(test)', function (obj) {
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch (obj.event) {
+                    case 'getCheckData':
+                        var data = checkStatus.data;
+                        layer.alert(JSON.stringify(data));
+                        break;
+                    case 'getCheckLength':
+                        var data = checkStatus.data;
+                        layer.msg('选中了：' + data.length + ' 个');
+                        break;
+                    case 'isAll':
+                        layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                        break;
+
+                    //自定义头工具栏右侧图标 - 提示
+                    case 'LAYTABLE_TIPS':
+                        layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                        break;
+                }
+                ;
+            });
+
+            //监听行工具事件
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                //console.log(obj)
+                if (obj.event === 'del') {
+                    deleteuser(data.id);
+                } else if (obj.event === 'edit') {
+                    dataAll = data;
+                    updatauser(data.id, data.username);
+                }
+            });
+        });
+
+    }
+
+    function deleteuser(Id) {
+        var res = layer.confirm("你在执行删除函数", {
+            btn: ['确定', '取消']
+        }, function (index) {
+            $.ajax({
+                url: "/laboratory/delete",
+                type: "post",
+                success: function (data) {
+                    layer.msg("删除成功")
+                    location = location;
+                },
+                data: "id=" + Id,
+                error: function (data) {
+                    layer.msg("删除失败")
+                }
+            })
+            layer.close(index);
+        });
+
+    }
+
+    function updatauser(id, Name) {
+        name = Name;
+        var res = layer.confirm("你在执行更改函数", {
+            btn: ['确定', '取消']
+        }, function (index) {
+            layer.open({
+                type: 2,
+                area: ['900px', '500px'], //宽高
+                content: 'form.html'
+                , end: function () {
+                    location = location;
+                }
+            });
+            layer.close(index);
+        });
+
+    }
+
+    // 动态加载表格
+    // $.ajax({
+    //     url: "/laboratory/userselect",
+    //     type: "post",
+    //     contentType: "application/json;charset=UTF-8",
+    //     success: function(data) {
+    //
+    //             var next=0
+    //             var table = document.getElementById("dataTable");
+    //
+    //             var i,j
+    //             for (j=0;j<6;j++){
+    //                 var tr = document.createElement("tr");
+    //                 for (i = 0; i < 9; i++) {
+    //                     var td = document.createElement("td");
+    //                     if(i==8||i==7){
+    //                         var updata=document.createElement("button")
+    //                         var deleteB=document.createElement("button")
+    //                         if (i==7){
+    //                             updata.className="updataButton";
+    //                             updata.onclick=function () {
+    //                                 updatauser($(this).attr("id"))
+    //                             };
+    //                             updata.innerText="updata"
+    //                             td.appendChild(updata)
+    //                         }else {
+    //                             deleteB.className="deleteButton";
+    //                             deleteB.id=data[j].id
+    //                             deleteB.onclick=function(){
+    //
+    //                                 deleteuser($(this).attr("id"))
+    //                         };
+    //                             deleteB.innerText="delete"
+    //                             td.appendChild(deleteB)
+    //                         }
+    //
+    //                     }else {
+    //                         td.innerText = d(j,data)
+    //
+    //
+    //                     }
+    //
+    //
+    //                     tr.appendChild(td)
+    //                 }
+    //                 table.appendChild(tr)
+    //             }
+    //
+    //         function d(j,data){
+    //             next=next+1;
+    //
+    //             if(next>=7){
+    //                 next=0;
+    //             }
+    //             switch (next) {
+    //                 case 1:return data[j].id;
+    //                 break
+    //                 case 2:return data[j].username;
+    //                 break;
+    //                 case 3:return data[j].sex;
+    //                 break;
+    //                 case 4:return data[j].nickname;
+    //                     break;
+    //                 case 5:return data[j].permissions;
+    //                 break;
+    //                 case 6:return data[j].phone;
+    //                 break;
+    //                 case 0:return data[j].email;
+    //
+    //                 break;
+    //
+    //             }
+    //
+    //
+    //         }
+    //
+    //     },
+    //     dataType: "json",
+    //     error: function() {
+    //         alert("失败");
+    //     }
+    //
+    //
+    // });
+
+
+</script>
+</body>
+
+</html>

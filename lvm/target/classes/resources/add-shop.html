@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title>
+    <link rel="stylesheet" th:href="@{js/layui/css/layui.css}">
+    <script th:src="@{js/jquery.min.js}"></script>
+    <script th:src="@{js/layui/layui.js}"></script>
+    <script th:src="@{js/vue.js}"></script>
+    <script th:src="@{js/axios.min.js}"></script>
+    <style>
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        .pr-2 {
+            padding-right: 2rem;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form mt-2 pr-2" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-block">
+            <input type="text" id="Name" name="name" required lay-verify="required" placeholder="请填写商品名称"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <input type="text" id="type" name="type" required lay-verify="required" placeholder="请填写商品类型"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">品牌</label>
+        <div class="layui-input-block">
+            <input type="text" name="brand" id="brand" required lay-verify="required" placeholder="请填写商品品牌"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">规格</label>
+        <div class="layui-input-block">
+            <input type="text" name="specification" id="specification" required lay-verify="required"
+                   placeholder="请填写商品规格" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">数量</label>
+        <div class="layui-input-block">
+            <input type="text" name="number" required id="number" lay-verify="required" placeholder="请填写商品数量"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">申购人</label>
+        <div class="layui-input-block">
+            <input type="text" name="requisitioner" required id="requisitioner" lay-verify="required"
+                   placeholder="请填写申购人" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">价格</label>
+        <div class="layui-input-block">
+            <input type="number" max="2000" name="price" required id="price" lay-verify="required" placeholder="请填写单价"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="dataT">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    //Demo
+    var val;
+    var name1 = document.getElementById("Name");
+    var brand = document.getElementById("brand");
+    var type = document.getElementById("type");
+    var specification = document.getElementById("specification");
+    var number = document.getElementById("number");
+    var requisitioner = document.getElementById("requisitioner");
+    var price = document.getElementById("price");
+    var d = document.getElementById("dataT");
+    d.onclick = function () {
+        var data = {
+            "name": name1.value,
+            "type": type.value,
+            "brand": brand.value,
+            "requisitioner": requisitioner.value,
+            "number": number.value,
+            "specification": specification.value,
+            "price": price.value
+        }
+        var index = parent.layer.getFrameIndex(window.name);
+        $.ajax({
+            url: '/addPurchase',
+            data: JSON.stringify(data),
+            type: "post",
+            dataType: "text",
+            contentType: "application/json;charset=UTF-8",
+            success: function (data) {
+
+                layui.layer.msg(data);
+                parent.document.getElementById("profile2").innerText = "2";
+                parent.layer.close(index);
+            }
+
+        });
+    }
+
+
+    //监听提交
+
+
+    //
+    // form.on('submit(formDemo)', function(data){
+    //
+    //     console.log(JSON.stringify(data.field))
+    //     $.ajax({
+    //         url: '/laboratory/addPurchase',
+    //         data: JSON.stringify(data.field),
+    //         type: "post",
+    //         dataType:"text",
+    //         contentType: "application/json;charset=UTF-8",
+    //         success: function (data) {
+    //
+    //             layui.layer.msg(data);
+    //             parent.document.getElementById("profile2").innerText="2";
+    //             parent.layer.close(index);
+    //         }
+    //
+    //     });
+    //   return false;
+    // });
+
+</script>
+</body>
+</html>

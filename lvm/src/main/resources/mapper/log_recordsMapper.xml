@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lvm.dao.Log_RecordsDao">
+    <select id="selectlog_recordsAll" resultType="com.example.lvm.po.Log_Records">
+        select * from log_records;
+    </select>
+
+
+</mapper>

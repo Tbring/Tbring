@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>商品采购</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="js/layui/css/layui.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/layui/layui.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <style>
+        .flex {
+            user-select: none;
+            display: flex;
+            font-size: 1.25rem;
+            justify-content: center;
+        }
+
+        .flex li {
+            cursor: pointer;
+            margin: 1rem;
+            border-bottom: 2px solid transparent;
+        }
+
+        .rote-z {
+            margin-left: 0.5em;
+            font-weight: bold;
+            transform: rotateZ(180deg);
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        .active {
+            border-bottom: 2px solid #57a2ff !important;
+            padding-bottom: 1rem;
+            color: #57a2ff;
+            font-weight: bold;
+        }
+
+        .active i {
+            font-size: 22px;
+        }
+
+        .bg-1 {
+            background: whitesmoke;
+        }
+
+        .icon-lg {
+            font-size: 20px !important;
+        }
+
+        .p-2 {
+            padding: 0.75rem;
+            padding-top: 0;
+        }
+
+        .mt-10 {
+            margin-top: 10px;
+        }
+
+        .se-t {
+            width: 35px;
+            height: 35px;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="p-2" id="app">
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否归还</label>
+        <div class="layui-input-block">
+            <select name="type" id="type" lay-verify="required" lay-search="">
+                <option value="0" selected="">否</option>
+                <option value="1">是</option>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">预计归还时间</label>
+        <div class="layui-input-block">
+            <input type="text" id="returndate" name="requisitioner" required lay-verify="required" placeholder="预计归还日期"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">领用数量</label>
+        <div class="layui-input-block">
+            <input type="number" id="number" name="requisitioner" required lay-verify="required" value="1"
+                   placeholder="请填写领用数量" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">领用人</label>
+        <div class="layui-input-block">
+            <input type="text" id="username" name="requisitioner" required lay-verify="required" placeholder="请填写领用人"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <table style="overflow-scrolling: auto" class="layui-table" v-if="list.name=='outbound'">
+
+        <colgroup>
+            <col width="80">
+
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+
+            <th>名称</th>
+            <th>类型</th>
+            <th>品牌</th>
+            <th>规格</th>
+            <th>数量</th>
+
+
+            <th>操作</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="val in list.data">
+
+            <td>{{val.name}}</td>
+            <td>{{val.type}}</td>
+            <td>{{val.brand}}</td>
+            <td>{{val.specification}}</td>
+            <td>{{val.number}}</td>
+            <td>
+                <button type="button" v-on:click="StrToFunc(val)" class="layui-btn layui-btn-normal">提交</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+
+    var tdid;
+    var index = parent.layer.getFrameIndex(window.name)
+
+    new Vue({
+        el: '#app',
+        data: {
+            th: [],
+            use_item: 0,
+            list: '',
+            api_list: [
+                '/outbound',
+            ],
+        },
+        methods: {
+            null_is: function () {
+
+            },
+            StrToFunc: function (open_page) {
+                this.open_page(open_page);
+            },
+            open_page: function (data) {
+
+
+                console.log(data);
+
+                var datareturn = document.getElementById("type").value;
+                var returndate = document.getElementById("returndate").value;
+                var number = document.getElementById("number").value;
+                var username = document.getElementById("username").value;
+                console.log(datareturn);
+                console.log(returndate);
+                console.log(number);
+                console.log(username);
+                var dd = {
+                    "data": JSON.stringify(data), "datareturn": datareturn,
+                    "number": number, "username": username, "returndate": returndate
+                };
+                $.ajax({
+                    url: '/addReceive',
+                    type: "post",
+                    dataType: "text",
+                    data: {"data": JSON.stringify(dd)},
+                    success: function (data) {
+                        alert(data)
+                        parent.layer.close(index);
+                    }
+                });
+
+
+            },
+            get: function () { // type= 获取类型
+                axios.get(this.api_list[this.use_item])
+                    .then(res => {
+                        this.list = res.data;
+
+
+                    })
+            },
+            change_item: function (e, item) {
+
+                $('#top_list li').each(function () {
+                    $(this).removeClass('active');
+                })
+                $(e.target).addClass('active');
+                this.use_item = item;
+                this.get();
+            }
+        },
+        mounted() {
+            this.get();
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

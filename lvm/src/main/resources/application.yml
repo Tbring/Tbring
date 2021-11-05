@@ -1,0 +1,26 @@
+server:
+  port: 1360
+
+
+spring:
+  datasource:
+    username: root
+    password: 314159265lq
+    url: jdbc:mysql://localhost:3306/lvm?useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+  thymeleaf:
+    cache: false
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.example.lvm.po
+
+#日志配置
+#aop:
+#    auto: true
+
+
+
+

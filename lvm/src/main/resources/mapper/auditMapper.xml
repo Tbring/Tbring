@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lvm.dao.AuditDao">
+    <select id="selectauditAll" resultType="com.example.lvm.po.Audit">
+        select * from audit;
+    </select>
+
+    <!--    &lt;!&ndash;    删除表数据&ndash;&gt;-->
+    <delete id="deleteAudit" parameterType="int">
+        delete from audit where dataId=#{dataId}
+    </delete>
+
+    <insert id="addAudit" useGeneratedKeys="true" keyProperty="id" parameterType="com.example.lvm.po.Audit">
+        insert into audit (name,state,auditname,dataId,submitTime)
+        values(#{name},#{state},#{auditname},#{dataId},#{submitTime})
+    </insert>
+
+
+</mapper>

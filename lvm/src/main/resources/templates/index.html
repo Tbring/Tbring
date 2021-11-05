@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title></title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- site icon -->
+    <link rel="icon" th:href="@{images/fevicon.png}" type="image/png"/>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+    <!-- site css -->
+    <link rel="stylesheet" th:href="@{css/style.css}"/>
+    <!-- responsive css -->
+    <link rel="stylesheet" th:href="@{css/responsive.css}"/>
+    <!-- color css -->
+    <link rel="stylesheet" th:href="@{css/colors.css}"/>
+    <!-- select bootstrap -->
+    <link rel="stylesheet" th:href="@{css/bootstrap-select.css}"/>
+    <!-- scrollbar css -->
+    <link rel="stylesheet" th:href="@{css/perfect-scrollbar.css}"/>
+    <!-- custom css -->
+    <link rel="stylesheet" th:href="@{css/custom.css}"/>
+    <!--    &lt;!&ndash;[if lt IE 9]>-->
+    <!--      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>-->
+    <!--      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>-->
+    <!--      <![endif]&ndash;&gt;-->
+</head>
+
+<body class="dashboard dashboard_1">
+<div class="full_container">
+    <div class="inner_container">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar_blog_1">
+                <div class="sidebar-header">
+                    <div class="logo_section">
+                        <a th:href="@{index.html}"><img class="logo_icon img-responsive"
+                                                        th:src="@{images/logo/logo_icon.png}" alt="#"/></a>
+                    </div>
+                </div>
+                <div class="sidebar_user_info">
+                    <div class="icon_setting"></div>
+                    <div class="user_profle_side">
+                        <div class="user_img"><img id="name_user_Img" class="img-responsive"
+                                                   th:src="@{images/layout_img/user_img.jpg}" alt="#"/></div>
+                        <div class="user_info">
+                            <h6 id="username">用户名</h6>
+                            <p><span class="online_animation"></span> Online</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar_blog_2">
+                <h4>综合</h4>
+                <ul class="list-unstyled components">
+                    <li class="active">
+                        <a th:href="@{#}" id="supplies">
+                            <i class="fa fa-dashboard yellow_color"></i>
+                            <span>实验室耗材</span></a>
+
+                    </li>
+                    <li><a th:href="@{#}" id="inventoryT"><i class="fa fa-clock-o orange_color"></i> <span>库存</span></a>
+                    </li>
+                    <li>
+                        <a th:href="@{#element}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                                class="fa fa-diamond purple_color"></i> <span> 流程管理</span></a>
+                        <ul class="collapse list-unstyled" id="element">
+                            <li><a th:href="@{#}" id="processRecipients">> <span>领用流程</span></a></li>
+                            <li><a th:href="@{#}" id="ApplicationProcess">> <span>申请流程</span></a></li>
+
+                        </ul>
+                    </li>
+                    <li><a th:href="@{#}" id="table"><i class="fa fa-table purple_color2"></i> <span>用户管理</span></a>
+                    </li>
+                    <li>
+                        <a th:href="@{#}" id="log"><i class="fa fa-object-group blue2_color"></i> <span>日志记录</span></a>
+                    </li>
+                    <li><a th:href="@{#}" id="profile"><i class="fa fa-briefcase blue1_color"></i> <span>个人中心</span></a>
+                    </li>
+
+                    <li><a th:href="@{#}" id="charts"><i class="fa fa-bar-chart-o green_color"></i> <span>图表</span></a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+        <!-- end sidebar -->
+        <!-- right content -->
+        <div id="content">
+            <!-- topbar -->
+            <div class="topbar">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="full">
+                        <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="fa fa-bars"></i>
+                        </button>
+                        <div class="logo_section">
+                            <a th:href="@{index.html}"><img class="img-responsive" th:src="@{images/logo/logo.png}"
+                                                            alt="#"/></a>
+                        </div>
+                        <div class="right_topbar">
+                            <div class="icon_info">
+                                <ul>
+                                    <li><a id="profile2" th:href="@{#}"><i class="fa fa-bell-o"></i><span id="msg"
+                                                                                                          class="badge"></span></a>
+                                    </li>
+                                    <li><a th:href="@{#}"><i class="fa fa-question-circle"></i></a></li>
+                                    <li><a th:href="@{#}"><i class="fa fa-envelope-o"></i><span
+                                            class="badge">3</span></a></li>
+                                </ul>
+                                <ul class="user_profile_dd">
+                                    <li>
+                                        <a class="dropdown-toggle" data-toggle="dropdown">
+                                            <img id="user_Img" class="img-responsive rounded-circle"
+                                                 th:src="@{images/layout_img/user_img.jpg}" alt="#"/>
+                                            <span id="userName2" class="name_user">用户名</span></a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" id="profile1" th:href="@{#}">我的资料</a>
+                                            <a class="dropdown-item" th:href="@{settings.html}">设置</a>
+                                            <a class="dropdown-item" th:href="@{help.html}">帮助</a>
+                                            <a id="loutlogin" class="dropdown-item" th:href="@{#}"><span>退出</span> <i
+                                                    class="fa fa-sign-out"></i></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <!-- end topbar -->
+            <!-- dashboard inner -->
+            <div class="midde_cont">
+                <div class="container-fluid">
+
+                    <iframe id="iframe" allowtransparency="true" style="background-color:transparent;" title="test"
+                            frameborder="0" width="1200px" height="800px" scrolling="no"
+                            th:src="@{test_index.html}"></iframe>
+                    <!-- end dashboard inner -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery -->
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/jquery-3.5.1.js}"></script>
+<script th:src="@{js/jquery-3.5.1.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<!-- wow animation -->
+<script th:src="@{js/animate.js}"></script>
+<!-- select country -->
+<script th:src="@{js/bootstrap-select.js}"></script>
+<!-- owl carousel -->
+<script th:src="@{js/owl.carousel.js}"></script>
+<!-- chart js -->
+<script th:src="@{js/Chart.min.js}"></script>
+<script th:src="@{js/Chart.bundle.min.js}"></script>
+<script th:src="@{js/utils.js}"></script>
+<script th:src="@{js/analyser.js}"></script>
+<!-- nice scrollbar -->
+<script th:src="@{js/perfect-scrollbar.min.js}"></script>
+<script>
+    var ps = new PerfectScrollbar('#sidebar');
+</script>
+<!-- custom js -->
+<script th:src="@{js/custom.js}"></script>
+<script th:src="@{js/layer/layer.js}"></script>
+<script th:src="@{js/chart_custom_style1.js}"></script>
+<script>
+    var username = document.getElementById("username")
+    var userName2 = document.getElementById("userName2")
+    var img1 = document.getElementById("user_Img");
+    var msg = document.getElementById("msg");
+    var img3 = document.getElementById("name_user_Img");
+    var loutlogin = document.getElementById("loutlogin")
+    window.onload = function () {
+        $.ajax({
+            url: "/index",
+            type: "post",
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            success: function (data) {
+                if (data.avatars != null) {
+
+                    img1.src = data.avatars;
+                    //
+                    img3.src = data.avatars;
+                }
+                username.textContent = data.nickname
+                userName2.textContent = data.nickname
+            },
+            error: function () {
+                layer.msg("没有登录")
+                setTimeout(function () {
+
+                    window.location.href = "/loging"
+                }, 5000)
+
+
+            },
+            dataType: "json"
+        });
+    }
+    loutlogin.onclick = function () {
+        alert("退出")
+        $.ajax({
+            url: "/loutlogin",
+            type: "post",
+            contentType: "application/json;charset=UTF-8",
+            success: function (data) {
+                window.location.href = "/loging"
+            },
+            error: function () {
+                layer.msg("失败")
+            },
+        });
+    }
+    var supplies = document.getElementById("supplies")
+    var table = document.getElementById("table")
+    var log = document.getElementById("log")
+    var profile = document.getElementById("profile")
+    var profile1 = document.getElementById("profile1");
+    var profile2 = document.getElementById("profile2")
+    var charts = document.getElementById("charts")
+    var inventoryT = document.getElementById("inventoryT")
+    var iframe = document.getElementById("iframe")
+    inventoryT.onclick = function () {
+        iframe.src = "test_index.html"
+    }
+
+    table.onclick = function () {
+        iframe.src = "tables.html"
+    }
+    log.onclick = function () {
+        iframe.src = "log.html"
+    }
+    charts.onclick = function () {
+        iframe.src = "charts.html"
+    }
+    supplies.onclick = function () {
+        iframe.src = "test_index.html"
+    }
+    profile.onclick = function () {
+        iframe.src = "profile.html";
+        iframe.style = "width:1600px";
+    };
+    profile1.onclick = function () {
+        iframe.src = "profile.html";
+        iframe.style = "width:1600px";
+    };
+    profile2.onclick = function () {
+        iframe.src = "profile.html";
+        iframe.style = "width:1600px";
+    }
+
+
+</script>
+</body>
+
+</html>

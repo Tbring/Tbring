@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="js/layui/css/layui.css">
+    <link rel="stylesheet" href="js/layer/theme/default/layer.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/layui/layui.js"></script>
+
+    <script src="js/layer/layer.js"></script>
+    <script src="js/vue.js"></script>
+    <!--    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>-->
+    <script src="js/axios.min.js"></script>
+    <style>
+        .flex {
+            user-select: none;
+            display: flex;
+            font-size: 1.25rem;
+            /*justify-content: center;*/
+        }
+
+        .flex li {
+            cursor: pointer;
+            margin: 1rem;
+            border-bottom: 2px solid transparent;
+        }
+
+        .rote-z {
+            margin-left: 0.5em;
+            font-weight: bold;
+            transform: rotateZ(180deg);
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        .active {
+            border-bottom: 2px solid #57a2ff !important;
+            padding-bottom: 1rem;
+            color: #57a2ff;
+            font-weight: bold;
+        }
+
+        .active i {
+            font-size: 22px;
+        }
+
+        .bg-1 {
+            background: whitesmoke;
+        }
+
+        .icon-lg {
+            font-size: 20px !important;
+        }
+
+        .p-2 {
+            padding: 0.75rem;
+            padding-top: 0;
+        }
+
+        .mt-10 {
+            margin-top: 10px;
+        }
+
+        .se-t {
+            width: 35px;
+            height: 35px;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="p-2" id="app">
+    <div class="bg-1">
+        <ul class="flex" id="top_list">
+            <li class="active" @click.stop="change_item($event,0)">申购
+                <div class="rote-z" @click.stop="null_is()"><i class="layui-icon layui-icon-return"></i></div>
+            </li>
+            <li @click.stop="change_item($event,1)">采购
+                <div class="rote-z" @click.stop="null_is()"><i class="layui-icon layui-icon-return"></i></div>
+            </li>
+            <li @click.stop="change_item($event,2)">验收入库
+                <div class="rote-z" @click.stop="null_is()"><i class="layui-icon layui-icon-return"></i></div>
+            </li>
+            <li @click.stop="change_item($event,3)">库存
+                <div class="rote-z" @click.stop="null_is()"><i class="layui-icon layui-icon-return"></i></div>
+            </li>
+            <li @click.stop="change_item($event,4)">领用
+                <div class="rote-z" @click.stop="null_is()"><i class="layui-icon layui-icon-return"></i></div>
+            </li>
+            <li @click.stop="change_item($event,5)">领用归还
+                <div class="rote-z" @click.stop="null_is()"><i class="layui-icon layui-icon-return"></i></div>
+            </li>
+            <li @click.stop="change_item($event,6)">借用
+                <div class="rote-z" @click.stop="null_is()"><i class="layui-icon layui-icon-return"></i></div>
+            </li>
+            <li @click.stop="change_item($event,7)">库存流水
+                <div class="rote-z" @click.stop="null_is()"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="mt-10" v-if="use_item==0">
+        <button onclick="open_page('add-shop.html','60%','520px','申购商品',0)" type="button"
+                class="layui-btn layui-btn-sm layui-btn-normal">
+            <i class="layui-icon layui-icon-addition icon-lg"></i>
+            申购商品
+        </button>
+    </div>
+    <div class="mt-10" v-if="use_item==1">
+        <button onclick="open_page('formProcurement.html','80%','620px','采购商品',1)" type="button"
+                class="layui-btn layui-btn-sm layui-btn-normal">
+            <i class="layui-icon layui-icon-addition icon-lg"></i>
+            采购商品
+        </button>
+    </div>
+
+    <div class="mt-10" v-if="use_item==3">
+        <button onclick="open_page('addData.html','80%','600px','入库',3)" type="button"
+                class="layui-btn layui-btn-sm layui-btn-normal">
+            <i class="layui-icon layui-icon-addition icon-lg"></i>
+            入库
+        </button>
+    </div>
+    <div class="mt-10" v-if="use_item==4">
+        <button onclick="open_page('formRecipients.html','80%','600px','领用申请',4)" type="button"
+                class="layui-btn layui-btn-sm layui-btn-normal">
+            <i class="layui-icon layui-icon-addition icon-lg"></i>
+            领用申请
+        </button>
+
+        <button onclick="open_page('formOutReceive.html','80%','600px','领用出库',5)" type="button"
+                class="layui-btn layui-btn-sm layui-btn-normal">
+            <i class="layui-icon layui-icon-addition icon-lg"></i>
+            领用出库
+        </button>
+    </div>
+    <div class="mt-10" v-if="use_item==6">
+        <button onclick="open_page('formBorrow.html','80%','600px','借用',6)" type="button"
+                class="layui-btn layui-btn-sm layui-btn-normal">
+            <i class="layui-icon layui-icon-addition icon-lg"></i>
+            借用
+        </button>
+        <button onclick="open_page('formOutBorrow.html','80%','600px','借用归还',6)" type="button"
+                class="layui-btn layui-btn-sm layui-btn-normal">
+            <i class="layui-icon layui-icon-addition icon-lg"></i>
+            借用归还
+        </button>
+    </div>
+
+    <!--        申购表-->
+    <table class="layui-table" v-if="list.name=='purchase'" style="table-layout:fixed;">
+        <!--申购-->
+        <colgroup>
+            <col width="80">
+
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>
+                操作
+            </th>
+            <th>名称</th>
+            <th>状态</th>
+            <th>类型</th>
+            <th>品牌</th>
+            <th>规格</th>
+            <th>数量</th>
+            <th>申购人</th>
+            <th>申请时间</th>
+            <th>价格</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="val in list.data" v-on:click="StrToFunc(val,0)">
+            <td>
+                <img class="se-t pointer" src="images/edit.png">
+            </td>
+            <td>{{val.name}}</td>
+            <td>
+                <span class="layui-badge" v-if="val.state==0">不通过</span>
+                <span class="layui-badge layui-bg-orange" v-else-if="val.state==1">审核中</span>
+                <span class="layui-badge layui-bg-green" v-else-if="val.state==2">审核通过</span>
+                <span class="layui-badge layui-bg-blue" v-else-if="val.state==3">已下单</span>
+            </td>
+            <td>{{val.type}}</td>
+            <td>{{val.brand}}</td>
+            <td>{{val.specification}}</td>
+            <td>{{val.number}}</td>
+            <td>{{val.requisitioner}}</td>
+            <td>{{val.purchasedate}}</td>
+            <td>{{val.price}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <!--        采购表-->
+    <table class="layui-table" v-else-if="list.name=='procurement'">
+        <!--采购-->
+        <colgroup>
+            <col width="100">
+
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>
+                操作
+            </th>
+            <th>采购编号</th>
+            <th>状态</th>
+            <th>采购人</th>
+            <th>采购日期</th>
+            <th>供货商</th>
+            <th>价格</th>
+            <th>采购商品</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="val in list.data">
+            <td>
+                <img class="se-t pointer" src="images/edit.png" onclick="open_page('edit.html','60%','600px','操作商品')">
+            </td>
+            <td>{{val.id}}</td>
+            <td>
+                <span class="layui-badge" v-if="val.state==0">不通过</span>
+                <span class="layui-badge layui-bg-blue" v-else-if="val.state==1">已下单</span>
+                <span class="layui-badge layui-bg-green" v-else-if="val.state==2">审核通过</span>
+                <span class="layui-badge layui-bg-orange" v-else-if="val.state==3">审核中</span>
+            </td>
+            <td>{{val.procurmentUser}}</td>
+            <td>{{val.purchasedate}}</td>
+            <td>{{val.supplier}}</td>
+            <td>{{val.price}}</td>
+            <td>{{val.shop}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <!--        验收入库表-->
+    <table class="layui-table" v-else-if="list.name=='checkincoming'">
+        <!--验收入库表-->
+        <colgroup>
+            <col width="100">
+
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+
+            <th>
+                操作
+            </th>
+            <th>采购编号</th>
+            <th>采购人</th>
+            <th>采购日期</th>
+            <th>供货商</th>
+            <th>价格</th>
+            <th>采购商品</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="val in list.data" v-on:click="StrToFunc(val,2)">
+
+
+            <td>
+                <img class="se-t pointer" src="images/edit.png">
+            </td>
+            <td>{{val.id}}</td>
+            <td>{{val.procurmentUser}}</td>
+            <td>{{val.purchasedate}}</td>
+            <td>{{val.supplier}}</td>
+            <td>{{val.price}}</td>
+            <td>{{val.shop}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <!--        库存表-->
+    <table class="layui-table" v-else-if="list.name=='outbound'">
+
+        <colgroup>
+            <col width="100">
+
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>
+                操作
+            </th>
+            <th>名称</th>
+            <th>类型</th>
+            <th>品牌</th>
+            <th>规格</th>
+            <th>数量</th>
+            <th>审核人</th>
+            <th>入库时间</th>
+            <th>过期日期</th>
+            <th>生产日期</th>
+            <th>价格</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="val in list.data" v-on:click="StrToFunc(val,4)">
+            <td>
+                <img class="se-t pointer" src="images/edit.png" onclick="open_page('edit.html','60%','600px','操作商品')">
+            </td>
+            <td>{{val.name}}</td>
+            <td>{{val.type}}</td>
+            <td>{{val.brand}}</td>
+            <td>{{val.specification}}</td>
+            <td>{{val.number}}</td>
+            <td>{{val.reviewer}}</td>
+            <td>{{val.purchasingTime}}</td>
+            <td>{{val.storageTime}}</td>
+            <td>{{val.ofproductiondate }}</td>
+            <td>{{val.price}}</td>
+
+
+        </tr>
+        </tbody>
+    </table>
+    <!--        领用表-->
+    <table class="layui-table" v-else-if="list.name=='receive'">
+
+        <colgroup>
+            <col width="100">
+
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>
+                操作
+            </th>
+            <th>名称</th>
+            <th>状态</th>
+            <th>品牌</th>
+            <th>规格</th>
+            <th>出库数量</th>
+            <th>领用人</th>
+            <th>领用时间</th>
+            <th>归还时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="val in list.data">
+            <td>
+                <img class="se-t pointer" src="images/edit.png" onclick="open_page('edit.html','60%','600px','操作商品')">
+            </td>
+            <td>{{val.name}}</td>
+            <td>
+                <span class="layui-badge" v-if="val.state==0">不通过</span>
+                <span class="layui-badge layui-bg-orange" v-else-if="val.state==1">审核中</span>
+                <span class="layui-badge layui-bg-green" v-else-if="val.state==2">审核通过</span>
+            </td>
+            <td>{{val.brand}}</td>
+            <td>{{val.specification}}</td>
+            <td>{{val.number}}</td>
+            <td>{{val.username}}</td>
+            <td>{{val.recipientsdate}}</td>
+            <td>{{val.returndate}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <!--        领用归还表-->
+    <table class="layui-table" v-else-if="list.name=='procurement'">
+        <!--采购-->
+        <colgroup>
+            <col width="100">
+
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>
+                操作
+            </th>
+            <th>名称</th>
+            <th>状态</th>
+            <th>类型</th>
+            <th>品牌</th>
+            <th>规格</th>
+            <th>数量</th>
+            <th>申购人</th>
+            <th>申请时间</th>
+            <th>价格</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="val in list.data">
+            <td>
+                <img class="se-t pointer" th:src="@{imagesedit.png}"
+                     onclick="open_page('edit.html','60%','600px','操作商品')">
+            </td>
+            <td>{{val.name}}</td>
+            <td>
+                <span class="layui-badge" v-if="val.state==0">不通过</span>
+                <span class="layui-badge layui-bg-orange" v-else-if="val.state==1">审核中</span>
+                <span class="layui-badge layui-bg-green" v-else-if="val.state==2">审核通过</span>
+            </td>
+            <td>{{val.type}}</td>
+            <td>{{val.brand}}</td>
+            <td>{{val.specification}}</td>
+            <td>{{val.number}}</td>
+            <td>{{val.requisitioner}}</td>
+            <td>{{val.purchasedate}}</td>
+            <td>{{val.price}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <!--借用表-->
+    <table class="layui-table" v-else-if="list.name=='borrow'">
+        <!--采购-->
+        <colgroup>
+            <col width="100">
+
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+
+            <th>名称</th>
+            <th>品牌</th>
+            <th>规格</th>
+            <th>数量</th>
+            <th>借用人</th>
+            <th>借用人单位</th>
+            <th>借用时间</th>
+            <th>已归还数量</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="val in list.data">
+
+            <td>{{val.name}}</td>
+            <td>{{val.brand}}</td>
+            <td>{{val.specifications}}</td>
+            <td>{{val.number}}</td>
+            <td>{{val.username}}</td>
+            <td>{{val.section}}</td>
+            <td>{{val.borrowdate}}</td>
+            <td>{{val.returnNumber}}</td>
+            >
+        </tr>
+        </tbody>
+    </table>
+    <!--        库存流水表-->
+    <table class="layui-table" v-else-if="list.name=='procurement'">
+        <!--采购-->
+        <colgroup>
+            <col width="100">
+
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>
+                操作
+            </th>
+            <th>名称</th>
+            <th>状态</th>
+            <th>类型</th>
+            <th>品牌</th>
+            <th>规格</th>
+            <th>数量</th>
+            <th>申购人</th>
+            <th>申请时间</th>
+            <th>价格</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="val in list.data">
+            <td>
+                <img class="se-t pointer" src="images/edit.png" onclick="open_page('edit.html','60%','600px','操作商品')">
+            </td>
+            <td>{{val.name}}</td>
+            <td>
+                <span class="layui-badge" v-if="val.state==0">不通过</span>
+                <span class="layui-badge layui-bg-orange" v-else-if="val.state==1">审核中</span>
+                <span class="layui-badge layui-bg-green" v-else-if="val.state==2">审核通过</span>
+            </td>
+            <td>{{val.type}}</td>
+            <td>{{val.brand}}</td>
+            <td>{{val.specification}}</td>
+            <td>{{val.number}}</td>
+            <td>{{val.requisitioner}}</td>
+            <td>{{val.purchasedate}}</td>
+            <td>{{val.price}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    var val;
+    var val_lenchth;
+    var tdid;
+    new Vue({
+        el: '#app',
+        data: {
+            th: [],
+            use_item: 0,
+            list: '',
+            api_list: [
+                '/selectAll',
+                '/selectprocurementAll',
+                '/selectcheckincomingAll',
+                '/outbound?type=',
+                '/selectreceiveAll',
+                '/selectrecipientstoreturnAll',
+                '/selectborrowAll',
+                '/selectborrowAll',
+            ],
+        },
+        methods: {
+            null_is: function () {
+
+            },
+            StrToFunc: function (open_page, id) {
+                console.log(id);
+                if (id == 2) {
+                    console.log(JSON.stringify(tdid))
+                    this.open_page('formCheckIncoming.html', '95%', '620px', '验收入库', open_page)
+
+                } else if (id == 0) {
+                    this.open_page('edit.html', '60%', '600px', '操作商品', open_page);
+                } else if (id == 4) {
+                    this.open_page('formOutData.html', '95%', '640px', '商品出库', open_page)
+
+                }
+            },
+
+            open_page: function (url, w, h, t, data) {
+                tdid = data;
+                layui.use('layer', function () {
+                    layer = layui.layer;
+                    layer.open({
+                        title: t,
+                        type: 2,
+                        area: [w, h],
+                        content: url
+                        , end: function () {
+                            location = location;
+                        }
+                    });
+                })
+            },
+            get: function () { // type= 获取类型
+                axios.get(this.api_list[this.use_item])
+                    .then(res => {
+                        this.list = res.data;
+                        val = res.data;
+                        val_lenchth = res.data;
+                    })
+            },
+            change_item: function (e, item) {
+                console.log(this.list)
+                $('#top_list li').each(function () {
+                    $(this).removeClass('active');
+                })
+                $(e.target).addClass('active');
+                this.use_item = item;
+                this.get();
+            }
+        },
+        mounted() {
+            this.get();
+        }
+    });
+
+    function open_page(url, w, h, t, id) {
+
+        tdid = id;
+        layui.use('layer', function () {
+            layer = layui.layer;
+            layer.open({
+                title: t,
+                Boolean: true,
+                type: 2,
+                area: [w, h],
+                content: url
+                , end: function () {
+                    location = location;
+                }
+            });
+        })
+    }
+</script>
+</body>
+
+</html>

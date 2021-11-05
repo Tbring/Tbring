@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/form-elements.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/laboratory/js/layui-v2.6.8/layui/css/layui.css" media="all">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+    <!-- Favicon and touch icons -->
+    <link rel="shortcut icon" href="assets/ico/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+</head>
+
+<body>
+
+<!-- Content -->
+<div class="top-content">
+
+    <div class="inner-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 text">
+                    <a class="logo" href="index.html"></a>
+                    <h1><strong>Bootstrap</strong> Modal Registration Form</h1>
+                    <div class="description">
+                        <p>
+                            This is a free responsive modal registration form made with Bootstrap. Download it on <a
+                                href="#"><strong>AZMIND</strong></a>, customize and use it as you like!
+                        </p>
+                    </div>
+                    <div class="top-big-link">
+                        <a class="btn btn-link-1 launch-modal" href="#" data-modal-id="modal-register">Launch modal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="copyrights">Collect from <a href="http://www.cssmoban.com/" title="网站模板">网站模板</a></div>
+<!-- MODAL -->
+<div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register-label"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="height: 600px;">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+                <h3 class="modal-title" id="modal-register-label">Sign up now</h3>
+                <p>Fill in the form below to get instant access:</p>
+            </div>
+
+            <div class="modal-body" style="height:450px">
+
+                <form role="form" action="#" method="post" class="registration-form">
+                    <div class="form-group">
+                        <label class="sr-only" for="form-first-name">昵称</label>
+                        <input type="text" name="form-first-name" placeholder="昵称" class="form-first-name form-control"
+                               id="form-first-name">
+                    </div>
+                    <div class="form-group">
+                        <div class="layui-input-block">
+                            <input type="radio" name="sex" value="男" title="男" checked="">男
+                            <input type="radio" name="sex" value="女" title="女">女
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="form-first-name">密码</label>
+                        <input type="password" style="height: 50px" id="Fpassword" name="form-first-name"
+                               placeholder="密码" class="form-first-name form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="form-first-name">确认密码</label>
+                        <input type="password" style="height: 50px" id="Lpassword" name="form-first-name"
+                               placeholder="确认密码" class="form-first-name form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="form-email">邮件</label>
+                        <input type="text" name="form-email" placeholder="邮件" class="form-first-name form-control"
+                               id="form-email">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="form-email">电话</label>
+                        <input type="text" name="form-email" id="phone" placeholder="电话"
+                               class="form-first-name form-control">
+                    </div>
+
+                    <button type="button" id="login" class="btn">Sign me up!</button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Javascript -->
+<script src="assets/js/jquery-1.11.1.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.backstretch.min.js"></script>
+<script src="assets/js/scripts.js"></script>
+<script src="/laboratory/js/layui-v2.6.8/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var login = document.getElementById("login")
+    login.onclick = function () {
+
+        var nickname = document.getElementById("form-first-name").value;
+        var firstpassword = document.getElementById("Fpassword").value;
+        var lastpassword = document.getElementById("Lpassword").value;
+        var form_email = document.getElementById("form-email").value;
+        var phone = document.getElementById("phone").value;
+        var sex = $('input[name="sex"]:checked').val();
+        var jsonObj = {
+            "nickname": nickname,
+            "password": firstpassword,
+            "sex": sex,
+            "userEmail": form_email,
+            "phone": phone,
+        };
+
+
+        $.ajax({
+            url: "/LVM/laboratory/registered",
+            type: "post",
+            data: JSON.stringify(jsonObj),
+            contentType: "application/json;charset=UTF-8",
+            success: function (data) {
+                alert("注册成功")
+                window.location.href = "/LVM/laboratory/loging"
+            },
+            error: function (e) {
+                alert("注册失败");
+            },
+            dataType: "text"
+        });
+
+    }
+
+</script>
+>
+<!--[if lt IE 10]>
+<script src="/laboratory/form-1/assets/js/placeholder.js"></script>
+
+<![endif]-->
+
+</body>
+
+</html>

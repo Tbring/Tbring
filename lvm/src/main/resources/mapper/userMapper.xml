@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lvm.dao.UserDao">
+
+    <!--根据id查询证件信息-->
+    <select id="selectAllUser" resultType="com.example.lvm.po.User">
+        select * from user
+    </select>
+
+    <!--查询自己管理下的信息-->
+    <select id="selectUser" resultType="com.example.lvm.po.User" parameterType="int">
+        select * from user where permissions &lt; #{permissions};
+    </select>
+
+    <!--根据id查询证件信息-->
+    <select id="selectState" resultType="String" parameterType="String">
+        select state from user where username=#{username}
+    </select>
+
+    <!--    根据用户名查询用户信息-->
+    <select id="selectUserNameUser" parameterType="String" resultType="com.example.lvm.po.User">
+        select * from user where username=#{username}
+    </select>
+
+    <!--    根据密码查找用户信息-->
+    <select id="selectPassWordUser" parameterType="String" resultType="com.example.lvm.po.User">
+        select * from user where password=#{password}
+    </select>
+
+    <!--    删除用户-->
+    <delete id="deleteuser" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+
+    <!--    修改在线状态-->
+    <update id="upDataState" parameterType="String">
+        update user set state=#{state} where username=#{username};
+    </update>
+
+    <!--    修改在线状态-->
+    <update id="upDataPassword" parameterType="String">
+        update user set password=#{password} where username=#{username};
+    </update>
+
+    <!--    修改权限-->
+    <update id="upDataPermissions" parameterType="String">
+        update user set permissions=#{permissions} where username=#{username};
+    </update>
+
+    <!--    更新用户登录时间-->
+    <update id="upDataLoginTime" parameterType="String">
+        update user set loginTime=#{loginTime} where username=#{username};
+    </update>
+
+    <!--    更新用户登录ip地址-->
+    <update id="upDataIpaddress" parameterType="String">
+        update user set ipaddress=#{ipaddress} where username=#{username};
+    </update>
+
+    <!--    更新用户头像图片-->
+    <update id="upDataAvatars" parameterType="String">
+        update user set avatars=#{avatar} where username=#{username};
+    </update>
+
+    <!--    更新用户信息-->
+    <update id="upData" parameterType="com.example.lvm.po.User">
+        update user set
+        nickname=#{nickname},sex=#{sex},userEmail=#{userEmail},phone=#{phone},describeWork=#{describeWork},aboutYourself=#{aboutYourself}
+        where username=#{username}
+    </update>
+
+
+    <!--    添加用户-->
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.example.lvm.po.User">
+        insert into user
+        (username,nickname,password,sex,permissions,avatars,phone,userEmail,state,loginTime,ipaddress,aboutYourself,describeWork)
+        values(#{username},#{nickname},#{password},#{sex},#{permissions},#{avatars},#{phone},#{userEmail},#{state},#{loginTime},#{ipaddress},#{aboutYourself},#{describeWork})
+    </insert>
+</mapper>

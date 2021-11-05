@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lvm.dao.DataDao">
+    <select id="selectdataAll" resultType="com.example.lvm.po.Data">
+        select * from data;
+    </select>
+
+    <select id="selectdataidAll" resultType="com.example.lvm.po.Data">
+        select * from data where id=#{id};
+    </select>
+
+    <!--      修改库存数量           -->
+    <update id="upDataNumber" parameterType="int">
+        update data set number=#{number} where id=#{id};
+    </update>
+
+    <!--      修改库存数量           -->
+    <update id="upDataPrice" parameterType="double">
+        update data set price=#{price} where id=#{id};
+    </update>
+
+
+    <!--    删除表数据-->
+    <delete id="deleteData" parameterType="int">
+        delete from data where id=#{id}
+    </delete>
+
+    <insert id="addData" useGeneratedKeys="true" keyProperty="id" parameterType="com.example.lvm.po.Data">
+        insert into data
+        (name,specification,brand,number,type,purchasingTime,ofproductiondate,designatedarea,storageTime,price,reviewer)
+        values(#{name},#{specification},#{brand},#{number},#{type},#{purchasingTime},#{storageTime},#{ofproductiondate},#{designatedarea},#{price},#{reviewer})
+    </insert>
+
+</mapper>

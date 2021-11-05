@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>商品采购</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="js/layui/css/layui.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/layui/layui.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <style>
+        .flex {
+            user-select: none;
+            display: flex;
+            font-size: 1.25rem;
+            justify-content: center;
+        }
+
+        .flex li {
+            cursor: pointer;
+            margin: 1rem;
+            border-bottom: 2px solid transparent;
+        }
+
+        .rote-z {
+            margin-left: 0.5em;
+            font-weight: bold;
+            transform: rotateZ(180deg);
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        .active {
+            border-bottom: 2px solid #57a2ff !important;
+            padding-bottom: 1rem;
+            color: #57a2ff;
+            font-weight: bold;
+        }
+
+        .active i {
+            font-size: 22px;
+        }
+
+        .bg-1 {
+            background: whitesmoke;
+        }
+
+        .icon-lg {
+            font-size: 20px !important;
+        }
+
+        .p-2 {
+            padding: 0.75rem;
+            padding-top: 0;
+        }
+
+        .mt-10 {
+            margin-top: 10px;
+        }
+
+        .se-t {
+            width: 35px;
+            height: 35px;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="p-2" id="app">
+
+    <table style="overflow-scrolling: auto" class="layui-table" v-if="list.name=='outreceive'">
+        <!--采购-->
+        <colgroup>
+            <col width="80">
+
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+
+            <th>名称</th>
+            <th>状态</th>
+            <th>品牌</th>
+            <th>规格</th>
+            <th>领用数量</th>
+            <th>领用人</th>
+            <th>领用时间</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="val in list.data" v-on:click="StrToFunc(val)">
+
+            <td>{{val.name}}</td>
+            <td>
+                <span class="layui-badge" v-if="val.state==0">不通过</span>
+                <span class="layui-badge layui-bg-orange" v-else-if="val.state==1">审核中</span>
+                <span class="layui-badge layui-bg-green" v-else-if="val.state==2">审核通过</span>
+            </td>
+
+            <td>{{val.brand}}</td>
+            <td>{{val.specification}}</td>
+            <td>{{val.number}}</td>
+            <td>{{val.username}}</td>
+            <td>{{val.recipientsdate}}</td>
+
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    var val;
+    var tdid;
+    var index = parent.layer.getFrameIndex(window.name)
+
+    new Vue({
+        el: '#app',
+        data: {
+            th: [],
+            use_item: 0,
+            list: '',
+            api_list: [
+                '/selectreceivestateAll',
+            ],
+        },
+        methods: {
+            null_is: function () {
+
+            },
+            StrToFunc: function (open_page) {
+                this.open_page(open_page);
+            },
+            open_page: function (data) {
+                var dd = {"Purchase": JSON.stringify(data)};
+                console.log("启动")
+                $.ajax({
+                    url: '/laboratory/deleteReceive',
+                    type: "POST",
+                    dataType: "text",
+                    data: {"data": JSON.stringify(dd)},
+                    success: function (data) {
+                        alert(data)
+                        parent.layer.close(index);
+                    }
+
+                });
+
+
+            },
+            get: function () { // type= 获取类型
+                axios.get(this.api_list[this.use_item])
+                    .then(res => {
+                        this.list = res.data;
+                        console.log(this.list)
+                        val = res.data;
+                    })
+            },
+            change_item: function (e, item) {
+                console.log(this.list)
+                $('#top_list li').each(function () {
+                    $(this).removeClass('active');
+                })
+                $(e.target).addClass('active');
+                this.use_item = item;
+                this.get();
+            }
+        },
+        mounted() {
+            this.get();
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

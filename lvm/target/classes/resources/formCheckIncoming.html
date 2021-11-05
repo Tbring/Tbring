@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>验收入库</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="js/layui/css/layui.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/layui/layui.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+
+    <style>
+        .layui-form-label {
+            width: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layui-form">
+    <table class="layui-table">
+        <colgroup>
+            <col width="60">
+
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>采购编号</th>
+            <th>名称</th>
+
+            <th>类型</th>
+            <th>品牌</th>
+            <th>规格</th>
+            <th>数量</th>
+            <th>价格</th>
+            <th>生产日期</th>
+            <th>过期日期</th>
+            <th>库存数量</th>
+            <th>创库</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+
+            <td>
+                <label id="id" class="layui-form-label">采购编号</label>
+            </td>
+
+            <td>
+                <label id="name" class="layui-form-label">名称</label>
+            </td>
+            <td>
+                <label id="type" class="layui-form-label">类型</label>
+            </td>
+            <td>
+                <label id="brand" class="layui-form-label">品牌</label>
+            </td>
+            <td>
+                <label id="specification" class="layui-form-label">规格</label>
+            </td>
+            <td>
+                <label id="num" class="layui-form-label">数量</label>
+            </td>
+
+            <td>
+                <label id="price" class="layui-form-label">价格</label>
+            </td>
+            <td>
+                <input type="text" name="date" id="dateofproduction" lay-verify="date" placeholder="生产日期"
+                       autocomplete="off" class="layui-input">
+
+            </td>
+            <td>
+                <input type="text" name="date" id="expirationdate" lay-verify="date" placeholder="过期日期"
+                       autocomplete="off" class="layui-input">
+
+            </td>
+            <td>
+
+                <input style="width: 80px" type="number" name="inventoryquantity" id="inventoryquantity" required
+                       lay-verify="required" placeholder="库存数量" autocomplete="off" class="layui-input">
+            </td>
+            <td>
+                <input style="width: 80px" type="text" name="designatedarea" id="designatedarea" required value="默认仓库"
+                       lay-verify="required" placeholder="默认仓库" autocomplete="off" class="layui-input">
+            </td>
+            <td>
+                <button class="layui-btn layui-btn-radius layui-btn-normal" onclick="tijiao()" type="button">立即提交
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var val = parent.tdid;
+    var index = parent.layer.getFrameIndex(window.name)
+    //Demo
+
+    var id = document.getElementById("id");
+    var name1 = document.getElementById("name");
+    var type = document.getElementById("type");
+    var brand = document.getElementById("brand");
+    var specification = document.getElementById("specification");
+    var num = document.getElementById("num");
+    var price = document.getElementById("price");
+    var dateofproduction = document.getElementById("dateofproduction");
+    var inventoryquantity = document.getElementById("inventoryquantity");
+    var expirationdate = document.getElementById("expirationdate");
+    var designatedarea = document.getElementById("designatedarea");
+    id.innerText = val.id;
+
+    $.ajax({
+        url: "/selectpurchaseDaoAll?id=" + val.purchaseId,
+        type: "GET",
+        success: function (d) {
+            console.log(d)
+            var da = JSON.parse(d)
+            console.log(da)
+            name1.innerText = da.data.name;
+            type.innerText = da.data.type;
+            brand.innerText = da.data.brand;
+            specification.innerText = da.data.specification;
+            num.innerText = da.data.number;
+            price.innerText = da.data.price;
+
+        },
+        error: function () {
+
+        },
+    });
+
+    function tijiao() {
+
+        var d = {
+            "data": val,
+            "checkincomingData": {
+                "dateofproduction": dateofproduction.value,
+                "inventoryquantity": inventoryquantity.value,
+                "expirationdate": expirationdate.value,
+                "designatedarea": designatedarea.value
+            }
+        };
+        if (expirationdate.value != "" && dateofproduction.value != "") {
+            $.ajax({
+                url: "/addCheckincomingData",
+                type: "POST",
+                data: {"data": JSON.stringify(d)},
+                success: function (data) {
+                    console.log(data)
+                    parent.layer.close(index);
+
+                },
+                error: function () {
+
+                },
+            });
+        } else if (expirationdate.value == "") {
+            alert("过期日期未填")
+        } else if (dateofproduction.value == "") {
+            alert("生产日期未填")
+        }
+
+
+    };
+</script>
+
+</body>
+
+</html>
